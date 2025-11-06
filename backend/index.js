@@ -11,7 +11,14 @@ const cors = require('cors');
 app.get('/', (req, res) => {
   res.send('hello from the server');
 })
-app.use(cors());
+const cors = require('cors');
+
+app.use(cors({
+  origin: ['https://t-m-project-ui.vercel.app'],  // your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(bodyParser.json());
 app.use('/tasks',TaskRouter)
 
