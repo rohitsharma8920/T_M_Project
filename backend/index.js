@@ -2,17 +2,11 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 require('./Models/db');
-// const PORT = process.env.PORT
-
 const TaskRouter = require('./Routes/TaskRouter');
 const bodyParser = require('body-parser');
-const cors = require('cors');
+const cors = require('cors');   // ✅ only once
 
-app.get('/', (req, res) => {
-  res.send('hello from the server');
-})
-const cors = require('cors');
-
+// ✅ Middleware
 app.use(cors({
   origin: ['https://t-m-project-ui.vercel.app'],  // your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -20,10 +14,16 @@ app.use(cors({
 }));
 
 app.use(bodyParser.json());
-app.use('/tasks',TaskRouter)
 
+// ✅ Routes
+app.get('/', (req, res) => {
+  res.send('hello from the server');
+});
 
-const PORT = 3000;
+app.use('/tasks', TaskRouter);
+
+// ✅ Server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on address http://localhost:${PORT}`);
-})
+  console.log(`Server running on http://localhost:${PORT}`);
+});
